@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.code4galaxy.musicplayertemplate"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.code4galaxy.musicplayertemplate"
