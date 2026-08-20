@@ -1,5 +1,5 @@
 [versions]
-agp = "9.3.1"
+agp = "9.2.1"
 coreKtx = "1.19.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -16,6 +16,7 @@ glide = "5.0.9"
 navigationCompose = "2.9.8"
 hiltNavigationCompose = "1.4.0"
 kotlinxSerialization = "1.7.3"
+runtime = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,7 @@ glide-compose = { group = "com.github.bumptech.glide", name = "compose", version
 # Navigation
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
