@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface MusicApiService {
 
-    @GET("/tracks/trending")
+    @GET("tracks/trending")
     suspend fun getTrendingTracks(
         @Query("genre") genre: String?,
         @Query("time") time: String,
@@ -18,7 +18,7 @@ interface MusicApiService {
         @Query("offset") offset: Int
     ): TrendingTracksResponse
 
-    @GET("/tracks/search")
+    @GET("tracks/search")
     suspend fun getSearchTracks(
         @Query("query") query: String,
         @Query("genre") genre: String?,
@@ -29,12 +29,12 @@ interface MusicApiService {
         @Query("mood") mood: String?
     ): SearchTracksResponse
 
-    @GET("/tracks/{track_id}")
+    @GET("tracks/{track_id}")
     suspend fun getTrackById(
         @Path("track_id") trackId: String
     ): TrackDetailsResponse
 
-    @GET("/tracks/trending/underground")
+    @GET("tracks/trending/underground")
     suspend fun getUndergroundTracks(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
