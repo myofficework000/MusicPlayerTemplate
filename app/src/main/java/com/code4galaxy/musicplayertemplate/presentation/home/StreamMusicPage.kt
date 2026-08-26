@@ -3,26 +3,35 @@ package com.code4galaxy.musicplayertemplate.presentation.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,10 +39,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.media3.session.CommandButton
 import com.code4galaxy.musicplayertemplate.R
+import com.code4galaxy.musicplayertemplate.ui.theme.Purple_Dark
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
@@ -41,10 +50,9 @@ import com.code4galaxy.musicplayertemplate.R
 fun StreamMusic(
     modifier: Modifier = Modifier,
 ) {
-    val state = rememberSliderState(
-    value = 20f,
-    valueRange = 0f..100f
-    )
+    var currentPosition by remember { mutableStateOf(20f) }
+    val duration = 180f
+    var isPlaying by remember { mutableStateOf(false) }
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
@@ -52,7 +60,7 @@ fun StreamMusic(
     ) {
         val (boxImage, backArrow,nowPlaying,musicImage) = createRefs()
         val (songTitle, songArtist,slider,playSong) = createRefs()
-        val (prevSong,nextSong)=createRefs()
+        val (prevSong,nextSong,durationText)=createRefs()
 
         Image(
             painter = painterResource(R.drawable.img),
@@ -69,20 +77,20 @@ fun StreamMusic(
                 }
         )
 
-        Button(
+        IconButton(
             onClick = {},
-            modifier = Modifier.constrainAs(backArrow) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            }.padding(top = 28.dp, start = 16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            )
+            modifier = Modifier
+                .constrainAs(backArrow) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
+                .padding(top = 28.dp, start = 10.dp)
         ) {
             Icon(
                 painter = painterResource(R.drawable.outline_arrow_back_ios_24),
                 contentDescription = "Back",
-                tint = Color.White
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
             )
         }
         Text(
@@ -128,7 +136,10 @@ fun StreamMusic(
             }.padding(top=10.dp, start = 16.dp)
         )
         Slider(
-            modifier = modifier
+            value = currentPosition,
+            onValueChange = { currentPosition = it },
+            valueRange = 0f..duration.coerceAtLeast(1f),
+            modifier = Modifier
                 .padding(
                     top = 24.dp,
                     start = 16.dp,
@@ -139,18 +150,39 @@ fun StreamMusic(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
-            state = state,
             colors = SliderDefaults.colors(
-                thumbColor = Color.Yellow,
-                activeTrackColor = Color.Yellow,
+                thumbColor = Purple_Dark,
+                activeTrackColor = Purple_Dark,
                 inactiveTrackColor = Color.Gray
             )
         )
-        Button(
-            onClick = {},
-            modifier = modifier.padding(
-                top = 20.dp
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp)
+                .constrainAs(durationText) {
+                    top.linkTo(slider.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = formatTime(currentPosition),
+                color = Color.White
             )
+
+            Text(
+                text = formatTime(duration),
+                color = Color.White
+            )
+        }
+        Button(
+            onClick = {
+                isPlaying = !isPlaying
+            },
+            modifier = Modifier
+                .padding(top = 32.dp)
                 .size(64.dp)
                 .constrainAs(playSong) {
                     top.linkTo(slider.bottom)
@@ -158,26 +190,31 @@ fun StreamMusic(
                     end.linkTo(parent.end)
                 },
             shape = CircleShape,
+            contentPadding = PaddingValues(0.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Yellow
+                containerColor = Purple_Dark
             )
-
         ) {
             Icon(
-                painter = painterResource(R.drawable.img_1),
-                contentDescription = "Play",
-                tint = Color.Black,
-                modifier = modifier.size(48.dp)
+                imageVector = if (isPlaying) {
+                    Icons.Default.Pause
+                } else {
+                    Icons.Default.PlayArrow
+                },
+                contentDescription = if (isPlaying) "Pause" else "Play",
+                tint = Color.White,
+                modifier = Modifier.size(32.dp)
             )
         }
         Button(
             onClick = {},
             modifier = Modifier.padding(
-                top = 20.dp,
-                start = 16.dp
+                top = 20.dp
             ).constrainAs(prevSong) {
-                    top.linkTo(slider.bottom)
+                    top.linkTo(playSong.top)
                     start.linkTo(parent.start)
+                end.linkTo(playSong.start)
+                bottom.linkTo(playSong.bottom)
 
                 },
             colors = ButtonDefaults.buttonColors(
@@ -186,20 +223,22 @@ fun StreamMusic(
 
         ) {
             Icon(
-                painter = painterResource(R.drawable.img_2),
-                contentDescription = "Play",
-                modifier = Modifier.size(24.dp)
+                imageVector = Icons.Default.SkipPrevious,
+                contentDescription = "Play Previous",
+                modifier = Modifier.size(40.dp)
             )
         }
         Button(
             onClick = {},
             modifier = Modifier.padding(
                 top = 20.dp,
-                end = 16.dp
+
             )
                 .constrainAs(nextSong) {
-                    top.linkTo(slider.bottom)
+                    top.linkTo(playSong.top)
                     end.linkTo(parent.end)
+                    start.linkTo(playSong.end)
+                    bottom.linkTo(playSong.bottom)
 
                 },
             colors = ButtonDefaults.buttonColors(
@@ -209,10 +248,17 @@ fun StreamMusic(
 
         ) {
             Icon(
-                painter = painterResource(R.drawable.img_3),
-                contentDescription = "Play",
-                modifier = Modifier.size(24.dp)
+                imageVector = Icons.Default.SkipNext,
+                contentDescription = "Play Next",
+                modifier = Modifier.size(40.dp)
             )
         }
     }
+}
+fun formatTime(seconds: Float): String {
+    val totalSeconds = seconds.toInt()
+    val minutes = totalSeconds / 60
+    val remainingSeconds = totalSeconds % 60
+
+    return "%d:%02d".format(minutes, remainingSeconds)
 }
