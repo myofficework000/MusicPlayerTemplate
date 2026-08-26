@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,9 +33,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onTrackClick: (String) -> Unit,
+    viewModel: MusicViewModel = hiltViewModel()
+) {
+    val trendingState by viewModel.trendingTracksUiState.collectAsStateWithLifecycle()
+    val undergroundState by viewModel.undergroundTracksUiState.collectAsStateWithLifecycle()
+    val searchState by viewModel.searchTracksUiState.collectAsStateWithLifecycle()
 
     var isSearchVisible by remember {
         mutableStateOf(false)
@@ -44,21 +53,10 @@ fun HomeScreen() {
         mutableStateOf("")
     }
 
-    val trendingTracks = listOf(
-        "Trending Track 1",
-        "Trending Track 2",
-        "Trending Track 3",
-        "Trending Track 4",
-        "Trending Track 5"
-    )
-
-    val undergroundTracks = listOf(
-        "Underground Track 1",
-        "Underground Track 2",
-        "Underground Track 3",
-        "Underground Track 4",
-        "Underground Track 5"
-    )
+    LaunchedEffect(Unit) {
+        viewModel.getTrendingTracks()
+        viewModel.getUndergroundTracks()
+    }
 
     Box(
         modifier = Modifier
@@ -127,6 +125,7 @@ fun HomeScreen() {
                     value = searchText,
                     onValueChange = {
                         searchText = it
+                        viewModel.searchTracks(it)
                     },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
@@ -152,6 +151,49 @@ fun HomeScreen() {
                         cursorColor = Color(0xFFBB86FC)
                     )
                 )
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+                when (val state = searchState) {
+
+                    UiState.Idle -> {
+                    }
+
+                    UiState.Loading -> {
+                        Text(
+                            text = "Searching...",
+                            color = Color.White
+                        )
+                    }
+
+                    is UiState.Success -> {
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+
+                            items(state.data) { track ->
+
+                                TrackItem(
+                                    title = track.title,
+                                    artist = track.artistName,
+                                    artworkUrl = track.artworkUrl,
+                                    onClick = {
+                                        onTrackClick(track.id)
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    is UiState.Error -> {
+                        Text(
+                            text = state.message,
+                            color = Color.Red
+                        )
+                    }
+                }
+
             }
 
             Spacer(
@@ -170,22 +212,43 @@ fun HomeScreen() {
                 modifier = Modifier.height(12.dp)
             )
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+            when (val state = trendingState) {
 
-                items(trendingTracks) { track ->
+                UiState.Idle -> {
+                }
 
-                    Box(
-                        modifier = Modifier.width(190.dp)
+                UiState.Loading -> {
+                    Text(
+                        text = "Loading trending tracks...",
+                        color = Color.White
+                    )
+                }
+
+                is UiState.Success -> {
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
 
-                        TrackItem(
-                            title = track,
-                            artist = "Artist Name",
-                            onClick = {}
-                        )
+                        items(state.data) { track ->
+                            TrackItem(
+                                title = track.title,
+                                artist = track.artistName,
+                                artworkUrl = track.artworkUrl,
+                                onClick = {
+                                    onTrackClick(track.id)
+                                }
+                            )
+
+                        }
                     }
+                }
+
+                is UiState.Error -> {
+                    Text(
+                        text = state.message,
+                        color = Color.Red
+                    )
                 }
             }
 
@@ -205,30 +268,46 @@ fun HomeScreen() {
                 modifier = Modifier.height(12.dp)
             )
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+            when (val state = undergroundState) {
 
-                items(undergroundTracks) { track ->
+                UiState.Idle -> {
+                }
 
-                    Box(
-                        modifier = Modifier.width(190.dp)
+                UiState.Loading -> {
+                    Text(
+                        text = "Loading underground tracks...",
+                        color = Color.White
+                    )
+                }
+
+                is UiState.Success -> {
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
 
-                        TrackItem(
-                            title = track,
-                            artist = "Artist Name",
-                            onClick = {}
-                        )
+                        items(state.data) { track ->
+                            TrackItem(
+                                title = track.title,
+                                artist = track.artistName,
+                                artworkUrl = track.artworkUrl,
+                                onClick = {
+                                    onTrackClick(track.id)
+                                }
+                            )
+                        }
+
                     }
+                }
+
+                is UiState.Error -> {
+                    Text(
+                        text = state.message,
+                        color = Color.Red
+                    )
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen()
-}

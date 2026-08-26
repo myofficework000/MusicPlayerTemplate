@@ -13,6 +13,7 @@ import javax.inject.Singleton
 class MusicPlayerWrapper @Inject constructor(
     private val exoPlayer: ExoPlayer
 ) {
+
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying = _isPlaying.asStateFlow()
 
@@ -23,21 +24,36 @@ class MusicPlayerWrapper @Inject constructor(
     val duration = _duration.asStateFlow()
 
     init {
-        exoPlayer.addListener(object : Player.Listener {
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                _isPlaying.value = isPlaying
-            }
+        exoPlayer.addListener(
+            object : Player.Listener {
 
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
-                    _duration.value = exoPlayer.duration
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    _isPlaying.value = isPlaying
+                }
+
+                override fun onPlaybackStateChanged(playbackState: Int) {
+
+                    if (playbackState == Player.STATE_READY) {
+                        _duration.value = exoPlayer.duration
+                    }
+
+                    if (playbackState == Player.STATE_ENDED) {
+                        _isPlaying.value = false
+                    }
                 }
             }
-        })
+        )
     }
 
     fun play(url: String) {
-        val mediaItem = MediaItem.fromUri(Uri.parse(url))
+
+        _currentPosition.value = 0L
+        _duration.value = 0L
+
+        val mediaItem = MediaItem.fromUri(
+            Uri.parse(url)
+        )
+
         exoPlayer.setMediaItem(mediaItem)
         exoPlayer.prepare()
         exoPlayer.play()
@@ -52,19 +68,24 @@ class MusicPlayerWrapper @Inject constructor(
     }
 
     fun stop() {
+
         exoPlayer.stop()
+
+        _currentPosition.value = 0L
+        _duration.value = 0L
+        _isPlaying.value = false
     }
 
     fun seekTo(position: Long) {
         exoPlayer.seekTo(position)
     }
 
-    fun release() {
-        exoPlayer.release()
+    fun updatePosition() {
+        _currentPosition.value =
+            exoPlayer.currentPosition
     }
 
-    // Call this periodically or on demand if needed
-    fun updatePosition() {
-        _currentPosition.value = exoPlayer.currentPosition
+    fun release() {
+        exoPlayer.release()
     }
 }

@@ -48,7 +48,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation("androidx.compose.material:material-icons-extended:<version>")
+    implementation(libs.androidx.material.icons.extended)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -68,6 +68,9 @@ dependencies {
     // Glide
     implementation(libs.glide)
     implementation(libs.glide.compose)
+
+    // Coil
+    implementation(libs.coil.compose)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

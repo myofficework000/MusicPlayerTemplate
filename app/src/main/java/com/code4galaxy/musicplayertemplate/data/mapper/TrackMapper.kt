@@ -8,15 +8,15 @@ fun TrackDto.toTrack(): Track{
         id = id,
         title = title,
         artistName = user.name,
-        description = description.takeIf(String::isNotEmpty),
+        description = description?.takeIf(String::isNotEmpty),
         genre = genre,
         duration = duration,
-        streamUrl = stream.url,
+        streamUrl = stream?.url ?:"",
         tags = tags
-            .split(",")
-            .map(String::trim)
-            .filter(String::isNotEmpty)
-            .takeIf(List<String>::isNotEmpty),
+            ?.split(",")
+            ?.map(String::trim)
+            ?.filter(String::isNotEmpty)
+            ?.takeIf(List<String>::isNotEmpty),
         artworkUrl = artwork.largeImageUrl,
     )
 }

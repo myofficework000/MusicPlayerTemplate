@@ -6,7 +6,7 @@ data class TrackDto(
     @SerializedName("track_id")
     val trackId: Int,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("genre")
     val genre: String,
     @SerializedName("id")
@@ -22,7 +22,7 @@ data class TrackDto(
     @SerializedName("is_original_available")
     val isOriginalAvailable: Boolean,
     @SerializedName("mood")
-    val mood: String,
+    val mood: String?,
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("repost_count")
@@ -32,7 +32,7 @@ data class TrackDto(
     @SerializedName("comment_count")
     val commentCount: Int,
     @SerializedName("tags")
-    val tags: String,
+    val tags: String?,
     @SerializedName("title")
     val title: String,
     @SerializedName("slug")
@@ -146,7 +146,7 @@ data class TrackDto(
     @SerializedName("artwork")
     val artwork: Artwork,
     @SerializedName("stream")
-    val stream: Stream,
+    val stream: Stream?,
     @SerializedName("download")
     val download: Any,
     @SerializedName("preview")
