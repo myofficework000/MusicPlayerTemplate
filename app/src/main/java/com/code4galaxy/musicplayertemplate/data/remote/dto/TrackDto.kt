@@ -100,7 +100,7 @@ data class TrackDto(
     @SerializedName("preview_start_seconds")
     val previewStartSeconds: Any,
     @SerializedName("bpm")
-    val bpm: Int,
+    val bpm: Double,
     @SerializedName("is_custom_bpm")
     val isCustomBpm: Boolean,
     @SerializedName("musical_key")
