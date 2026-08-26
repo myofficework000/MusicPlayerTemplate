@@ -3,6 +3,7 @@ package com.code4galaxy.musicplayertemplate.data.remote
 import com.code4galaxy.musicplayertemplate.data.remote.dto.SearchTracksResponse
 import com.code4galaxy.musicplayertemplate.data.remote.dto.TrackDetailsResponse
 import com.code4galaxy.musicplayertemplate.data.remote.dto.TrendingTracksResponse
+import com.code4galaxy.musicplayertemplate.data.remote.dto.UndergroundTrendingTracksResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -11,7 +12,7 @@ interface MusicApiService {
 
     @GET("/tracks/trending")
     suspend fun getTrendingTracks(
-        @Query("genre") genre: String,
+        @Query("genre") genre: String?,
         @Query("time") time: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
@@ -20,12 +21,12 @@ interface MusicApiService {
     @GET("/tracks/search")
     suspend fun getSearchTracks(
         @Query("query") query: String,
-        @Query("genre") genre: String,
-        @Query("time") time: String,
+        @Query("genre") genre: String?,
+        @Query("time") time: String?,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
-        @Query("sortMethod") sortMethod: String,
-        @Query("mood") mood: Int
+        @Query("sortMethod") sortMethod: String?,
+        @Query("mood") mood: String?
     ): SearchTracksResponse
 
     @GET("/tracks/{track_id}")
@@ -37,5 +38,5 @@ interface MusicApiService {
     suspend fun getUndergroundTracks(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): TrendingTracksResponse
+    ): UndergroundTrendingTracksResponse
 }

@@ -1,5 +1,6 @@
 package com.code4galaxy.musicplayertemplate.di
 
+import com.code4galaxy.musicplayertemplate.data.remote.MusicApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +14,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    private const val BASE_URL = "https://api.audius.co/v1/"
 
     @Provides
     @Singleton
@@ -34,9 +37,15 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://example.com/") // Placeholder URL
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMusicApiService(retrofit: Retrofit): MusicApiService{
+        return retrofit.create(MusicApiService::class.java)
     }
 }

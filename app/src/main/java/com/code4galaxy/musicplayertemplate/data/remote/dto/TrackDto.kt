@@ -2,7 +2,7 @@ package com.code4galaxy.musicplayertemplate.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class TrackDto(
     @SerializedName("track_id")
     val trackId: Int,
     @SerializedName("description")

@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class TrackDetailsResponse(
     @SerializedName("data")
-    val `data`: Data
+    val `data`: TrackDto
 )
