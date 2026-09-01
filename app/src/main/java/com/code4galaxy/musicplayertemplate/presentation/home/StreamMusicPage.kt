@@ -44,6 +44,24 @@ import com.code4galaxy.musicplayertemplate.domain.model.Track
 import com.code4galaxy.musicplayertemplate.ui.MusicPlayerViewModel
 import com.code4galaxy.musicplayertemplate.ui.theme.Purple_Dark
 
+
+
+
+/**
+ * Displays the music streaming screen for the provided track.
+ * This composable observes the track UI state from [MusicViewModel] and
+ * displays loading, error, or music player content based on the current state.
+ * When [trackId] changes, the track details are requested from the ViewModel.
+ * @param trackId Unique identifier of the track to be loaded and played.
+ * @param modifier Modifier used to customize the layout of the screen.
+ * @param trackViewModel ViewModel responsible for loading and exposing the selected track details.
+ * @param playerViewModel ViewModel responsible for controlling music playback,
+ * playback position, duration, play/pause, and seeking.
+ */
+
+
+
+
 @Composable
 fun StreamMusic(
     trackId: String,
@@ -101,6 +119,20 @@ fun StreamMusic(
         trackViewModel.getTrackDetails(trackId)
     }
 }
+
+
+
+
+/** Displays the music player UI for the provided [Track].
+ * The screen shows the track artwork, title, artist name, playback progress, duration, and playback controls.
+ * Playback state, current playback position, and duration are observed from  [MusicPlayerViewModel].
+ * The user can seek through the track using the slider and can start, pause, or resume playback using the play/pause button.
+ * @param track Track whose information and audio stream are displayed.
+ * @param playerViewModel ViewModel responsible for controlling music playback and exposing the current playback state.
+ * @param modifier Modifier used to customize the music player layout.
+ */
+
+
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun MusicPlayerContent(
@@ -322,6 +354,11 @@ private fun MusicPlayerContent(
         }
     }
 }
+
+/** * Converts a playback duration from milliseconds into a formatted minutes-and-seconds string.
+ *  @param ms Playback duration or position in milliseconds.
+ *  @return The formatted playback time in `MM:SS` format.
+ */
 
 private fun formatTime(ms: Long): String {
     val totalSeconds = ms / 1000

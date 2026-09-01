@@ -28,6 +28,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
+
+
+
+/** Displays a single track item containing the track artwork,
+ * title, artist name, and a play icon. If [artworkUrl] is available, the track artwork is loaded and displayed.
+ * Otherwise, a default music icon is shown as a placeholder.
+ * The entire track card is clickable and invokes [onClick] when selected.
+ * @param title Title of the track displayed in the item.
+ * @param artist Name of the artist associated with the track.
+ * @param artworkUrl Optional URL of the track artwork. If null or empty,
+ * a default music icon is displayed.
+ * @param onClick Callback invoked when the user clicks the track item.
+ */
+
+
+
 @Composable
 fun TrackItem(
     title: String,
