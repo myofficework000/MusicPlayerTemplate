@@ -47,3 +47,18 @@ The project follows a modular Clean Architecture approach:
    Wait for the project to sync and download all dependencies.
 4. **Run the App:**
    Connect a device or emulator and hit the **Run** button.
+
+
+
+## 📱 Screenshots
+### 🏠 Home Screen
+
+![Home Screen](./img.png)
+
+### 🔍 Search Music
+
+![Search Music](./img_1.png)
+
+### 🎵 Music Player
+
+![Music Player](./img_2.png)
