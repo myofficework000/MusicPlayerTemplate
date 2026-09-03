@@ -11,11 +11,31 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
+/**
+ * Hilt dependency injection module responsible for networking dependencies.
+ *
+ * Provides singleton instances of [HttpLoggingInterceptor], [OkHttpClient],
+ * [Retrofit], and [MusicApiService] used by the application.
+ */
+
+
+
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     private const val BASE_URL = "https://api.audius.co/v1/"
+
+
+
+    /**
+     * Provides an HTTP logging interceptor for inspecting network requests
+     * and responses during development.
+     *
+     * @return Configured [HttpLoggingInterceptor].
+     */
+
 
     @Provides
     @Singleton
@@ -25,6 +45,16 @@ object NetworkModule {
         }
     }
 
+
+
+    /**
+     * Provides the application's shared HTTP client.
+     *
+     * @param loggingInterceptor Interceptor used for HTTP logging.
+     * @return Configured [OkHttpClient].
+     */
+
+
     @Provides
     @Singleton
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -33,6 +63,12 @@ object NetworkModule {
             .build()
     }
 
+    /**
+     * Provides the Retrofit client configured for the Audius API.
+     *
+     * @param okHttpClient HTTP client used by Retrofit.
+     * @return Configured [Retrofit] instance.
+     */
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -43,6 +79,12 @@ object NetworkModule {
             .build()
     }
 
+    /**
+     * Provides the Retrofit implementation of [MusicApiService].
+     *
+     * @param retrofit Retrofit instance used to create the service.
+     * @return An implementation of [MusicApiService].
+     */
     @Provides
     @Singleton
     fun provideMusicApiService(retrofit: Retrofit): MusicApiService{

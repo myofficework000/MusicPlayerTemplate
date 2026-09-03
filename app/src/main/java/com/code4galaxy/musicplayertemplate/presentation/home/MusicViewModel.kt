@@ -14,6 +14,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel responsible for music-related UI state and user actions.
+ *
+ * Coordinates domain use cases for retrieving tracks and exposes the
+ * resulting loading, success, and error states to the Compose UI.
+ *
+ * The ViewModel acts as the presentation-layer bridge between the
+ * application's use cases and music screens.
+ */
 @HiltViewModel
 class MusicViewModel @Inject constructor(
     private val getTrackDetailsUseCase: GetTrackDetailsUseCase,
@@ -50,6 +59,12 @@ class MusicViewModel @Inject constructor(
         _searchTracksUiState.asStateFlow()
 
 
+
+    /**
+     * Retrieves details for the selected track.
+     *
+     * @param trackId Unique identifier of the track.
+     */
     fun getTrackDetails(trackId: String) {
 
         viewModelScope.launch {
@@ -75,6 +90,9 @@ class MusicViewModel @Inject constructor(
     }
 
 
+    /**
+    * Loads trending tracks using the selected filters.
+    */
     fun getTrendingTracks() {
 
         viewModelScope.launch {
@@ -106,6 +124,9 @@ class MusicViewModel @Inject constructor(
     }
 
 
+    /**
+     * Loads underground trending tracks.
+     */
     fun getUndergroundTracks() {
 
         viewModelScope.launch {
@@ -135,6 +156,11 @@ class MusicViewModel @Inject constructor(
     }
 
 
+    /**
+     * Searches for tracks matching the provided query.
+     *
+     * @param query Search text entered by the user.
+     */
     fun searchTracks(query: String) {
 
         if (query.isBlank()) {

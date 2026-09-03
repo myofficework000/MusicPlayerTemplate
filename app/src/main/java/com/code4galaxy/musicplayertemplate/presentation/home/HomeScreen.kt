@@ -36,6 +36,27 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Displays the main home screen of the music player application.
+ *
+ * The screen allows the user to:
+ * - View trending tracks.
+ * - View underground tracks.
+ * - Search for tracks.
+ * - Select a track and navigate to the player screen.
+ *
+ * Track data is provided by [MusicViewModel]. The screen observes
+ * trending, underground, and search UI states and updates the
+ * interface according to loading, success, or error states.
+ *
+ * Trending and underground tracks are loaded when the screen
+ * is first displayed.
+ *
+ * @param onTrackClick Callback invoked when the user selects a track.
+ * The unique track ID is passed to the callback.
+ * @param viewModel ViewModel responsible for loading tracks,
+ * performing searches, and exposing UI state to this screen.
+ */
 @Composable
 fun HomeScreen(
     onTrackClick: (String) -> Unit,

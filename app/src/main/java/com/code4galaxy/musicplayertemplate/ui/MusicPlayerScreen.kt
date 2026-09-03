@@ -55,6 +55,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+
+/**
+ * ViewModel responsible for managing track information
+ * and music playback state.
+ *
+ * @property musicPlayerWrapper Wrapper used to control audio playback.
+ * @property getTrackDetailsUseCase Use case used to retrieve track details.
+ */
+
 @HiltViewModel
 class MusicPlayerViewModel @Inject constructor(
     private val musicPlayerWrapper: MusicPlayerWrapper,
@@ -131,6 +141,19 @@ class MusicPlayerViewModel @Inject constructor(
         musicPlayerWrapper.seekTo(position.toLong())
     }
 }
+
+
+
+/**
+ * Displays the music player screen for the selected track.
+ *
+ * Shows the track artwork, title, artist, playback progress,
+ * and playback controls.
+ *
+ * @param trackId Unique identifier of the selected track.
+ * @param onBackClick Callback invoked when the user navigates back.
+ * @param viewModel ViewModel responsible for track data and playback.
+ */
 
 @Composable
 fun MusicPlayerScreen(
@@ -400,6 +423,16 @@ fun MusicPlayerScreen(
         }
     }
 }
+
+
+
+/**
+ * Converts playback time from milliseconds to `MM:ss` format.
+ *
+ * @param ms Time in milliseconds.
+ * @return Formatted playback time.
+ */
+
 
 private fun formatTime(ms: Long): String {
 
