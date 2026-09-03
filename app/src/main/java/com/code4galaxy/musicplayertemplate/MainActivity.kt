@@ -17,16 +17,12 @@ import com.code4galaxy.musicplayertemplate.navigation.NavGraph
 import com.code4galaxy.musicplayertemplate.ui.theme.MusicPlayerTemplateTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-
-
 /**
  * Main entry point of the Music Player Android application.
  *
  * Hosts the Jetpack Compose UI and initializes the application's
  * navigation graph.
  */
-
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

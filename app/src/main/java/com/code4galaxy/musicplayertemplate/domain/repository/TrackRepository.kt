@@ -1,8 +1,6 @@
 package com.code4galaxy.musicplayertemplate.domain.repository
 
 import com.code4galaxy.musicplayertemplate.domain.model.Track
-
-
 /**
  * Defines the contract for accessing track data.
  *
@@ -10,10 +8,7 @@ import com.code4galaxy.musicplayertemplate.domain.model.Track
  * on a remote API implementation. The actual implementation is provided
  * by the data layer.
  */
-
-
 interface TrackRepository {
-
 
     /**
      * Retrieves a list of currently trending tracks.
@@ -25,15 +20,11 @@ interface TrackRepository {
      *
      * @return A list of trending [Track] objects.
      */
-
-
     suspend fun getTrendingTracks(
         genre:String? = null,
         limit: Int = 10,
         time: String = "week",
         offset: Int = 0): List<Track>
-
-
 
 
     /**
@@ -44,13 +35,9 @@ interface TrackRepository {
      *
      * @return A list of underground [Track] objects.
      */
-
-
     suspend fun getUndergroundTracks(
         limit: Int = 10,
         offset: Int = 0): List<Track>
-
-
 
     /**
      * Searches for tracks matching the provided query and filters.
@@ -66,8 +53,6 @@ interface TrackRepository {
      * @return A list of tracks matching the search criteria.
      */
 
-
-
     suspend fun searchTracks(
         query: String,
         limit: Int = 10,
@@ -77,8 +62,6 @@ interface TrackRepository {
         sortMethod: String? = null,
         mood: String? = null): List<Track>
 
-
-
     /**
      * Retrieves complete information for a specific track.
      *
@@ -86,9 +69,6 @@ interface TrackRepository {
      *
      * @return The requested [Track].
      */
-
-
-
 
     suspend fun getTrackDetails(trackId: String): Track
 

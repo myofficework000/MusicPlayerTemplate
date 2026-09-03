@@ -3,16 +3,12 @@ package com.code4galaxy.musicplayertemplate.domain.useCase
 import com.code4galaxy.musicplayertemplate.domain.model.Track
 import com.code4galaxy.musicplayertemplate.domain.repository.TrackRepository
 import javax.inject.Inject
-
-
 /**
  * Use case responsible for retrieving result based on the search query.
  *
  * @property repository Repository used to retrieve track data.
  */
-
 class SearchTracksUseCase @Inject constructor(private val repository: TrackRepository) {
-
     /**
      * Searches for tracks matching the provided query.
      *
@@ -28,8 +24,6 @@ class SearchTracksUseCase @Inject constructor(private val repository: TrackRepos
      *
      * @return A list of [Track] objects matching the search criteria.
      */
-
-
     suspend operator fun invoke(query: String, limit:Int = 10, offset:Int, genre: String? ,sortMethod: String? ,mood: String?): List<Track>{
        return repository.searchTracks(
            query,

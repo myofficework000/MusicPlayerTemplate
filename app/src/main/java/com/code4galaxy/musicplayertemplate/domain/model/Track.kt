@@ -17,7 +17,6 @@ package com.code4galaxy.musicplayertemplate.domain.model
  * @property tags Optional list of tags associated with the track.
  * @property artworkUrl URL of the track artwork image.
  */
-
 data class Track(
     val id: String,
     val title: String,

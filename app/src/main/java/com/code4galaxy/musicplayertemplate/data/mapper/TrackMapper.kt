@@ -13,8 +13,6 @@ import com.code4galaxy.musicplayertemplate.domain.model.Track
  *
  * @return A domain [Track] containing the mapped track information.
  */
-
-
 fun TrackDto.toTrack(): Track{
     return Track(
         id = id,

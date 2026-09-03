@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-
 /**
  * Wrapper around [ExoPlayer] that manages music playback operations.
  *
@@ -20,10 +18,6 @@ import javax.inject.Singleton
  *
  * @property exoPlayer Media3 player used for audio playback.
  */
-
-
-
-
 @Singleton
 class MusicPlayerWrapper @Inject constructor(
     private val exoPlayer: ExoPlayer
@@ -33,7 +27,6 @@ class MusicPlayerWrapper @Inject constructor(
     /**
      * Indicates whether audio is currently playing.
      */
-
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying = _isPlaying.asStateFlow()
 
@@ -48,7 +41,6 @@ class MusicPlayerWrapper @Inject constructor(
     /**
      * Duration of the currently loaded track.
      */
-
     private val _duration = MutableStateFlow(0L)
     val duration = _duration.asStateFlow()
 
@@ -74,8 +66,6 @@ class MusicPlayerWrapper @Inject constructor(
         )
     }
 
-
-
     /**
      * Loads and starts playing an audio track.
      *
@@ -84,7 +74,6 @@ class MusicPlayerWrapper @Inject constructor(
      *
      * @param url URL of the audio stream to play.
      */
-
     fun play(url: String) {
 
         _currentPosition.value = 0L
@@ -99,30 +88,23 @@ class MusicPlayerWrapper @Inject constructor(
         exoPlayer.play()
     }
 
-
     /**
      * Pauses the currently playing track.
      */
-
     fun pause() {
         exoPlayer.pause()
     }
 
-
     /**
      * Resumes playback of the currently paused track.
      */
-
-
     fun resume() {
         exoPlayer.play()
     }
 
-
     /**
      * Stops playback and resets playback state.
      */
-
     fun stop() {
 
         exoPlayer.stop()
@@ -132,18 +114,14 @@ class MusicPlayerWrapper @Inject constructor(
         _isPlaying.value = false
     }
 
-
-
     /**
      * Moves playback to the requested position.
      *
      * @param position Target playback position in milliseconds.
      */
-
     fun seekTo(position: Long) {
         exoPlayer.seekTo(position)
     }
-
 
     /**
     * Updates the exposed playback position using the player's
@@ -155,14 +133,11 @@ class MusicPlayerWrapper @Inject constructor(
             exoPlayer.currentPosition
     }
 
-
     /**
      * Releases the underlying player resources.
      *
      * The wrapper should not be used for playback after this call.
      */
-
-
     fun release() {
         exoPlayer.release()
     }

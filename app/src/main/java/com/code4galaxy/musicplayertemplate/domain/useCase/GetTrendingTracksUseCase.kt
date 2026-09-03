@@ -5,7 +5,6 @@ import com.code4galaxy.musicplayertemplate.domain.model.Track
 import com.code4galaxy.musicplayertemplate.domain.repository.TrackRepository
 import javax.inject.Inject
 
-
 /**
  * Use case responsible for retrieving trending music tracks.
  *
@@ -14,11 +13,7 @@ import javax.inject.Inject
  *
  * @property repository Repository used to retrieve track data.
  */
-
-
 class GetTrendingTracksUseCase @Inject constructor(private val repository: TrackRepository) {
-
-
     /**
      * Retrieves trending tracks using the given filters.
      *
@@ -29,9 +24,6 @@ class GetTrendingTracksUseCase @Inject constructor(private val repository: Track
      *
      * @return A list of trending [Track] objects.
      */
-
-
-
     suspend operator fun invoke(genre: String?, limit: Int = 10, time: String = "week", offset: Int) : List<Track>{
         return repository.getTrendingTracks(
             genre = genre,

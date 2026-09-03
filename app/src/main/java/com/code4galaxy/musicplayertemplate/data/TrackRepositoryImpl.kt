@@ -6,9 +6,6 @@ import com.code4galaxy.musicplayertemplate.data.remote.MusicApiService
 import com.code4galaxy.musicplayertemplate.domain.model.Track
 import com.code4galaxy.musicplayertemplate.domain.repository.TrackRepository
 import javax.inject.Inject
-
-
-
 /**
  * Implementation of [TrackRepository].
  *
@@ -17,8 +14,6 @@ import javax.inject.Inject
  *
  * @property musicApiService Remote API service used to communicate with music API.
  */
-
-
 class TrackRepositoryImpl @Inject constructor(val musicApiService: MusicApiService) :
     TrackRepository {
 
@@ -41,7 +36,6 @@ class TrackRepositoryImpl @Inject constructor(val musicApiService: MusicApiServi
         return response.data.toTrackList()
     }
 
-
     /**
     * Retrieves underground tracks from the remote API.
     */
@@ -56,12 +50,9 @@ class TrackRepositoryImpl @Inject constructor(val musicApiService: MusicApiServi
         return response.data.toTrackList()
     }
 
-
     /**
      * Searches remote tracks and maps the results into domain models.
      */
-
-
     override suspend fun searchTracks(
         query: String,
         limit: Int,
@@ -83,13 +74,9 @@ class TrackRepositoryImpl @Inject constructor(val musicApiService: MusicApiServi
         return response.data.toTrackList()
     }
 
-
-
     /**
      * Retrieves and maps details for a single track.
      */
-
-
     override suspend fun getTrackDetails(trackId: String): Track {
         val response = musicApiService.getTrackById(
             trackId = trackId

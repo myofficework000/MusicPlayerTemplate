@@ -36,8 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-
-
 /**
  * Displays the main home screen of the music player application.
  *
@@ -59,9 +57,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
  * @param viewModel ViewModel responsible for loading tracks,
  * performing searches, and exposing UI state to this screen.
  */
-
-
-
 @Composable
 fun HomeScreen(
     onTrackClick: (String) -> Unit,

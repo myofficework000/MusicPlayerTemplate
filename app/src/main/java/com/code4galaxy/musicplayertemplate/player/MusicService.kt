@@ -15,7 +15,6 @@ import javax.inject.Inject
  * The service allows playback to participate in Android's media system
  * and manages the lifetime of the media session.
  */
-
 @AndroidEntryPoint
 class MusicService : MediaSessionService() {
 
@@ -35,8 +34,6 @@ class MusicService : MediaSessionService() {
      *
      * @return The application's active [MediaSession].
      */
-
-
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
         return mediaSession
     }
@@ -46,7 +43,6 @@ class MusicService : MediaSessionService() {
     /**
      * Releases player and media-session resources when the service is destroyed.
      */
-
     override fun onDestroy() {
         mediaSession.run {
             player.release()

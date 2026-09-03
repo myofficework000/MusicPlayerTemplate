@@ -18,19 +18,15 @@ import javax.inject.Singleton
  * Provides application-wide instances required for playback,
  * including [AudioAttributes], [ExoPlayer], and [MediaSession].
  */
-
-
 @Module
 @InstallIn(SingletonComponent::class)
 object MediaModule {
-
 
     /**
      * Provides audio attributes configured for music playback.
      *
      * @return Audio attributes configured for media usage.
      */
-
     @Provides
     @Singleton
     fun provideAudioAttributes(): AudioAttributes {
@@ -40,8 +36,6 @@ object MediaModule {
             .build()
     }
 
-
-
     /**
      * Provides the application's shared [ExoPlayer] instance.
      *
@@ -50,8 +44,6 @@ object MediaModule {
      *
      * @return Configured [ExoPlayer].
      */
-
-
     @Provides
     @Singleton
     fun provideExoPlayer(
@@ -65,8 +57,6 @@ object MediaModule {
     }
 
 
-
-
     /**
      * Provides the application's [MediaSession].
      *
@@ -75,8 +65,6 @@ object MediaModule {
      *
      * @return Configured [MediaSession].
      */
-
-
     @Provides
     @Singleton
     fun provideMediaSession(

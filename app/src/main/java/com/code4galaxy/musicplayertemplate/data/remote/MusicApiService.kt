@@ -7,20 +7,13 @@ import com.code4galaxy.musicplayertemplate.data.remote.dto.UndergroundTrendingTr
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-
-
-
 /**
  * Retrofit service defining the music API endpoints.
  *
  * This service is used by the data layer to retrieve trending tracks,
  * search results, individual track details, and underground tracks.
  */
-
-
 interface MusicApiService {
-
-
 
     /**
      * Retrieves trending tracks from the music API.
@@ -32,8 +25,6 @@ interface MusicApiService {
      *
      * @return A [TrendingTracksResponse] containing trending tracks.
      */
-
-
     @GET("tracks/trending")
     suspend fun getTrendingTracks(
         @Query("genre") genre: String?,
@@ -41,8 +32,6 @@ interface MusicApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): TrendingTracksResponse
-
-
 
     /**
      * Searches for tracks using the provided search query and filters.
@@ -70,8 +59,6 @@ interface MusicApiService {
         @Query("mood") mood: String?
     ): SearchTracksResponse
 
-
-
     /**
      * Retrieves detailed information about a specific track.
      *
@@ -79,13 +66,10 @@ interface MusicApiService {
      *
      * @return A [TrackDetailsResponse] containing the track information.
      */
-
     @GET("tracks/{track_id}")
     suspend fun getTrackById(
         @Path("track_id") trackId: String
     ): TrackDetailsResponse
-
-
 
     /**
      * Retrieves underground trending tracks.
@@ -95,8 +79,6 @@ interface MusicApiService {
      *
      * @return An [UndergroundTrendingTracksResponse].
      */
-
-
     @GET("tracks/trending/underground")
     suspend fun getUndergroundTracks(
         @Query("limit") limit: Int,

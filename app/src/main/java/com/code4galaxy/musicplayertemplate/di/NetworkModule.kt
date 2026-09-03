@@ -63,16 +63,12 @@ object NetworkModule {
             .build()
     }
 
-
-
     /**
      * Provides the Retrofit client configured for the Audius API.
      *
      * @param okHttpClient HTTP client used by Retrofit.
      * @return Configured [Retrofit] instance.
      */
-
-
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -83,16 +79,12 @@ object NetworkModule {
             .build()
     }
 
-
-
     /**
      * Provides the Retrofit implementation of [MusicApiService].
      *
      * @param retrofit Retrofit instance used to create the service.
      * @return An implementation of [MusicApiService].
      */
-
-
     @Provides
     @Singleton
     fun provideMusicApiService(retrofit: Retrofit): MusicApiService{
