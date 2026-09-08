@@ -5,32 +5,38 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.code4galaxy.musicplayertemplate.presentation.home.HomeScreen
+import com.code4galaxy.musicplayertemplate.presentation.auth.LoginScreen
+import com.code4galaxy.musicplayertemplate.presentation.auth.RegisterScreen
+import com.code4galaxy.musicplayertemplate.presentation.main.MainScreen
 import com.code4galaxy.musicplayertemplate.ui.MusicPlayerScreen
 import kotlinx.serialization.Serializable
-/**
- * Navigation destination representing the application's home screen.
- */
+
+@Serializable
+object Login
+
+@Serializable
+object Register
+
+@Serializable
+object Main
+
 @Serializable
 object Home
-/**
- * Navigation destination representing the music player screen.
- *
- * @property trackId Unique identifier of the track that should be played.
- */
+
+@Serializable
+object Search
+
+@Serializable
+object Library
+
+@Serializable
+object Profile
+
 @Serializable
 data class Player(
     val trackId: String
 )
-/**
- *
- * Defines the main navigation graph for the application.
- *
- * The graph provides navigation between the home screen and the
- * music player screen.
- *
- * @param navController Controller responsible for application navigation.
- */
+
 @Composable
 fun NavGraph(
     navController: NavHostController
@@ -38,18 +44,51 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Home
+        startDestination = Login
     ) {
 
-        composable<Home> {
+        composable<Login> {
 
-            HomeScreen(
-                onTrackClick = { trackId ->
+            LoginScreen(
+                onLoginSuccess = {
 
-                    navController.navigate(
-                        Player(trackId)
-                    )
+                    navController.navigate(Main) {
+
+                        popUpTo(Login) {
+                            inclusive = true
+                        }
+                    }
+                },
+
+                onRegisterClick = {
+                    navController.navigate(Register)
                 }
+            )
+        }
+
+        composable<Register> {
+
+            RegisterScreen(
+                onRegisterSuccess = {
+
+                    navController.navigate(Main) {
+
+                        popUpTo(Login) {
+                            inclusive = true
+                        }
+                    }
+                },
+
+                onLoginClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable<Main> {
+
+            MainScreen(
+                rootNavController = navController
             )
         }
 
