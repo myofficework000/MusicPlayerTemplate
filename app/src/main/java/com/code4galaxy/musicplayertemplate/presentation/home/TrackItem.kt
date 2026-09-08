@@ -4,17 +4,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,28 +32,30 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
-
-/** Displays a single track item containing the track artwork,
- * title, artist name, and a play icon. If [artworkUrl] is available, the track artwork is loaded and displayed.
- * Otherwise, a default music icon is shown as a placeholder.
- * The entire track card is clickable and invokes [onClick] when selected.
- * @param title Title of the track displayed in the item.
- * @param artist Name of the artist associated with the track.
- * @param artworkUrl Optional URL of the track artwork. If null or empty,
- * a default music icon is displayed.
- * @param onClick Callback invoked when the user clicks the track item.
+/**
+ * Displays a single track item with artwork, title, artist,
+ * play icon and favorite icon.
+ *
+ * @param title Track title.
+ * @param artist Artist name.
+ * @param artworkUrl Optional artwork URL.
+ * @param isFavorite True when the track is already in favorites.
+ * @param onFavoriteClick Called when the heart icon is clicked.
+ * @param onClick Called when the track card is clicked.
  */
 @Composable
 fun TrackItem(
     title: String,
     artist: String,
     artworkUrl: String?,
-    onClick: () -> Unit,
+    isFavorite: Boolean = false,
+    onFavoriteClick: () -> Unit = {},
+    onClick: () -> Unit
 ) {
 
     Card(
         modifier = Modifier
-            .width(280.dp)
+            .fillMaxWidth()
             .height(100.dp)
             .clickable {
                 onClick()
@@ -64,7 +70,9 @@ fun TrackItem(
     ) {
 
         Row(
-            modifier = Modifier.padding(14.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -130,16 +138,37 @@ fun TrackItem(
                 )
             }
 
-            Spacer(
-                modifier = Modifier.width(8.dp)
-            )
-
             Icon(
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = "Play",
                 tint = Color(0xFFBB86FC),
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(28.dp)
             )
+
+            Spacer(
+                modifier = Modifier.width(4.dp)
+            )
+
+            IconButton(
+                onClick = onFavoriteClick
+            ) {
+
+                Icon(
+                    imageVector =
+                        if (isFavorite) {
+                            Icons.Default.Favorite
+                        } else {
+                            Icons.Default.FavoriteBorder
+                        },
+                    contentDescription =
+                        if (isFavorite) {
+                            "Remove from favorites"
+                        } else {
+                            "Add to favorites"
+                        },
+                    tint = Color(0xFFB56CFF)
+                )
+            }
         }
     }
 }

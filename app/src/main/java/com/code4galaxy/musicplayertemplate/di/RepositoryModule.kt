@@ -1,6 +1,8 @@
 package com.code4galaxy.musicplayertemplate.di
 
+import com.code4galaxy.musicplayertemplate.data.FavoritesRepositoryImpl
 import com.code4galaxy.musicplayertemplate.data.TrackRepositoryImpl
+import com.code4galaxy.musicplayertemplate.domain.repository.FavoritesRepository
 import com.code4galaxy.musicplayertemplate.domain.repository.TrackRepository
 import dagger.Binds
 import dagger.Module
@@ -27,4 +29,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindTrackRepository(trackRepositoryImpl: TrackRepositoryImpl) : TrackRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoritesRepository( impl: FavoritesRepositoryImpl ): FavoritesRepository
 }
